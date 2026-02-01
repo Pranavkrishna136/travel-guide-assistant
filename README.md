@@ -1,77 +1,81 @@
-# 🎓 Learning Path Recommender AI  
-### Personalized Study Roadmaps Powered by AI
+# 🌍 Travel Guide Assistant  
+### Smart & Personalized Travel Planning Powered by AI
 
-> An AI-powered system that recommends personalized learning paths for students based on their skill level, goals, and progress.
+> An AI-powered travel assistant that provides personalized itineraries and travel recommendations using compressed destination guides and Retrieval-Augmented Generation (RAG).
 
 ---
 
 ## 🚀 Overview
 
-The **Learning Path Recommender AI** helps students overcome confusion and information overload by generating a clear, structured learning roadmap.  
-Instead of randomly following tutorials, learners receive a step-by-step study plan tailored to their current knowledge and career goals.
+The **Travel Guide Assistant** helps users plan trips efficiently by generating personalized travel recommendations based on their preferences, budget, and duration.  
+Instead of searching through multiple travel websites, users receive a clear, structured itinerary generated from trusted travel data.
 
 ---
 
 ## ❓ Problem Statement
 
-Students often:
-- Don’t know what to learn first  
-- Feel overwhelmed by too many courses  
-- Follow random tutorials without a clear direction  
+Travelers often:
+- Don’t know which places to visit first  
+- Feel overwhelmed by too many travel guides and reviews  
+- Spend hours planning itineraries manually  
 
-This system solves these problems by creating a guided and focused learning journey.
+This system solves these problems by creating a guided and personalized travel planning experience.
 
 ---
 
 ## ✨ Features
 
-✔ Personalized learning roadmaps  
-✔ Skill-level based recommendations  
-✔ Course content compression and summarization  
-✔ Goal-oriented study paths  
-✔ AI-generated structured learning plans  
-✔ Time-efficient learning guidance  
+✔ Personalized travel itineraries  
+✔ Destination-based recommendations  
+✔ Compressed travel guides for faster responses  
+✔ Budget-friendly travel suggestions  
+✔ AI-powered recommendation system  
+✔ Low-latency, accurate results  
 
 ---
 
 ## 🧠 How It Works
 
-1. User selects a learning goal (e.g., Web Development, Data Science)  
-2. User chooses their current skill level  
-3. System analyzes and compresses course content  
-4. AI identifies skill gaps and priorities  
-5. A personalized learning roadmap is generated  
+1. User enters destination, trip duration, and budget  
+2. System retrieves relevant compressed travel data  
+3. RAG framework selects the most relevant information  
+4. AI generates a personalized itinerary and recommendations  
+5. User receives a complete travel plan  
 
 ---
 
 ## ⚙ Tech Stack
 
-- Frontend: HTML, CSS, JavaScript  
-- AI Engine: OpenAI API  
-- Logic: Recommendation system and content compression  
+- Programming Language: Python  
+- AI Model: LLM (OpenAI / Hugging Face)  
+- Embeddings: Sentence Transformers  
+- Vector Database: FAISS  
+- RAG Framework: LangChain  
+- Frontend: Streamlit  
+- Data Source: WikiVoyage and sample travel reviews  
 
 ---
 
 ## 📈 Benefits
 
-- Saves learning time  
+- Saves travel planning time  
 - Reduces information overload  
-- Provides structured guidance  
-- Beginner-friendly  
-- Scalable system  
+- Personalized and accurate recommendations  
+- Beginner-friendly implementation  
+- Scalable and efficient system  
 
 ---
 
 ## 🔮 Future Improvements
 
-- Progress tracking dashboard  
-- Quiz-based skill assessment  
-- Integration with online learning platforms  
-- Certification and course completion suggestions  
+- Real-time travel data integration  
+- Map-based route visualization  
+- Hotel and transport recommendations  
+- User profile-based personalization  
 
 ---
 
 ## ⭐ Project Goal
 
-To build an intelligent learning assistant that guides students from  
-**confusion → clarity → mastery**
+To build an intelligent travel assistant that guides users from  
+**planning → exploration → unforgettable journeys** ✈️
