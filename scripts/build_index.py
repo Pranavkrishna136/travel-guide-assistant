@@ -28,15 +28,19 @@ def load_documents(data_dir):
 
 def build_index(documents, model_name='all-MiniLM-L6-v2'):
     """Build FAISS index from documents."""
-    model = SentenceTransformer(model_name)
+    print("Loading model...")
+    model = SentenceTransformer(model_name, cache_folder=os.path.expanduser('~/.cache/sentence-transformers'))
     texts = [doc['text'] for doc in documents]
+    print("Encoding documents to embeddings...")
     embeddings = model.encode(texts, show_progress_bar=True)
     
     # Create FAISS index
     dimension = embeddings.shape[1]
+    print(f"Creating FAISS index with {dimension} dimensions...")
     index = faiss.IndexFlatIP(dimension)  # Inner product for cosine similarity
     faiss.normalize_L2(embeddings)  # Normalize for cosine
     index.add(embeddings)
+    print(f"Added {len(embeddings)} embeddings to index.")
     
     return index, embeddings, model
 

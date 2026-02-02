@@ -1,64 +1,134 @@
 """
-Travel Guide Assistant - RAG-based itinerary generator.
+Travel Guide Assistant - RAG-based itinerary generator (Simplified Version).
 """
 
 import os
-import pickle
-import numpy as np
-import faiss
-from sentence_transformers import SentenceTransformer
-from openai import OpenAI
-from typing import List, Dict
+import glob
+from typing import List, Dict, Tuple
 
 class TravelAssistant:
-    def __init__(self, index_dir: str = 'data/index', model_name: str = 'all-MiniLM-L6-v2'):
-        self.index_dir = index_dir
-        self.model_name = model_name
-        self.model = SentenceTransformer(model_name)
-        self.index = None
-        self.documents = None
+    def __init__(self, data_dir: str = 'data/raw'):
+        self.data_dir = data_dir
+        self.documents = {}
         self.client = None
-        self.load_index()
+        self.load_documents()
     
-    def load_index(self):
-        """Load FAISS index and documents."""
-        index_path = os.path.join(self.index_dir, 'index.faiss')
-        docs_path = os.path.join(self.index_dir, 'documents.pkl')
+    def load_documents(self):
+        """Load all travel guide documents."""
+        for filepath in glob.glob(os.path.join(self.data_dir, '*.txt')):
+            city_name = os.path.basename(filepath).replace('.txt', '').lower()
+            
+            # Skip extended/culture/duplicates - keep main versions only
+            if city_name.endswith(('_extended', '_culture')):
+                continue
+            
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                self.documents[city_name] = content
         
-        if os.path.exists(index_path) and os.path.exists(docs_path):
-            self.index = faiss.read_index(index_path)
-            with open(docs_path, 'rb') as f:
-                self.documents = pickle.load(f)
-        else:
-            raise FileNotFoundError("Index not found. Run build_index.py first.")
+        # Sort for consistent ordering
+        self.documents = dict(sorted(self.documents.items()))
+        print(f"Loaded {len(self.documents)} unique city guides: {list(self.documents.keys())}")
     
     def set_openai_client(self, api_key: str):
         """Set OpenAI client."""
+        from openai import OpenAI
         self.client = OpenAI(api_key=api_key)
     
-    def retrieve(self, query: str, top_k: int = 5) -> List[Dict]:
-        """Retrieve top-k relevant documents."""
-        query_embedding = self.model.encode([query])
-        faiss.normalize_L2(query_embedding)
-        distances, indices = self.index.search(query_embedding, top_k)
+    def find_matching_city(self, destination: str) -> str:
+        """Find the best matching city from available documents."""
+        destination_lower = destination.lower()
         
-        results = []
-        for dist, idx in zip(distances[0], indices[0]):
-            if idx != -1:
-                results.append({
-                    'text': self.documents[idx]['text'],
-                    'source': self.documents[idx]['source'],
-                    'chunk_id': self.documents[idx]['chunk_id'],
-                    'score': float(dist)
-                })
-        return results
+        # Exact match
+        if destination_lower in self.documents:
+            return destination_lower
+        
+        # Partial match
+        for city in self.documents.keys():
+            if city in destination_lower or destination_lower in city:
+                return city
+        
+        # Return first available if no match
+        return list(self.documents.keys())[0] if self.documents else None
     
-    def generate_itinerary(self, destination: str, days: int, budget: float, preferences: str = "") -> str:
-        """Generate itinerary using RAG."""
-        query = f"Travel guide for {destination}: attractions, food, activities, budget around ${budget} for {days} days."
-        retrieved = self.retrieve(query, top_k=10)
+    def retrieve(self, destination: str) -> str:
+        """Retrieve travel guide for destination."""
+        city = self.find_matching_city(destination)
+        if not city:
+            return f"No travel data available. Available cities: {', '.join(self.documents.keys())}"
+        return self.documents[city]
+    
+    def generate_demo_itinerary(self, destination: str, days: int, budget: float, preferences: str = "") -> str:
+        """Generate a demo itinerary from retrieved data without using API."""
+        context = self.retrieve(destination)
+        city = self.find_matching_city(destination)
         
-        context = "\n\n".join([doc['text'] for doc in retrieved])
+        # Generate demo itinerary based on retrieved context
+        demo_itinerary = f"""
+# 🗺️ {destination} - {days} Day Itinerary (Demo Mode)
+
+**Budget:** ${budget}  
+**Travel Style:** {preferences.split('Travel Style: ')[1].split('\\n')[0] if 'Travel Style:' in preferences else 'Flexible'}  
+
+---
+
+## Travel Information
+
+Based on available travel data:
+
+{context}
+
+---
+
+## Daily Schedule
+
+"""
+        
+        # Generate day-by-day structure
+        budget_per_day = budget / days
+        for day in range(1, days + 1):
+            demo_itinerary += f"""
+### Day {day}
+
+**Budget for today:** ${budget_per_day:.2f}
+
+#### Morning
+- Start with a local breakfast or café
+- Visit main attractions or museums in the area
+- Estimated cost: ${budget_per_day * 0.3:.2f}
+
+#### Afternoon  
+- Continue exploring cultural sites or natural landmarks
+- Lunch at a recommended local restaurant
+- Estimated cost: ${budget_per_day * 0.35:.2f}
+
+#### Evening
+- Dinner at a local establishment
+- Evening stroll or local entertainment
+- Estimated cost: ${budget_per_day * 0.35:.2f}
+
+---
+"""
+        
+        demo_itinerary += """
+## Notes
+
+⚠️ **This is a DEMO itinerary** generated from available travel data.
+
+**To generate AI-powered personalized itineraries:**
+1. Ensure your OpenAI API key has active credits
+2. Check your billing at https://platform.openai.com/account/billing/overview
+3. If on free trial, you may need to add a payment method
+
+**Demo mode sources:** Local travel guides in the database
+
+---
+"""
+        return demo_itinerary
+    
+    def generate_itinerary(self, destination: str, days: int, budget: float, preferences: str = "", use_demo: bool = False) -> Tuple[str, bool]:
+        """Generate itinerary using RAG. Returns (itinerary, is_demo)."""
+        context = self.retrieve(destination)
         
         prompt = f"""
 You are a travel assistant. Based on the following information about {destination}, create a {days}-day itinerary for a budget of approximately ${budget}.
@@ -78,21 +148,30 @@ Please structure the itinerary day by day, including:
 Keep it realistic and balanced.
 """
         
-        if not self.client:
-            return "OpenAI client not set. Please provide API key."
+        if not self.client or use_demo:
+            # Use demo mode if no client or explicitly requested
+            demo_itinerary = self.generate_demo_itinerary(destination, days, budget, preferences)
+            return demo_itinerary, True
         
-        response = self.client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=1500,
-            temperature=0.7
-        )
-        
-        return response.choices[0].message.content.strip()
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=1500,
+                temperature=0.7
+            )
+            return response.choices[0].message.content.strip(), False
+        except Exception as e:
+            # Fallback to demo mode on API error
+            if "insufficient_quota" in str(e) or "429" in str(e):
+                demo_itinerary = self.generate_demo_itinerary(destination, days, budget, preferences)
+                return demo_itinerary, True
+            else:
+                raise
 
-def generate_itinerary(destination: str, days: int, budget: float, preferences: str = "", api_key: str = None) -> str:
-    """Convenience function."""
+def generate_itinerary(destination: str, days: int, budget: float, preferences: str = "", api_key: str = None, use_demo: bool = False) -> Tuple[str, bool]:
+    """Convenience function. Returns (itinerary, is_demo)."""
     assistant = TravelAssistant()
     if api_key:
         assistant.set_openai_client(api_key)
-    return assistant.generate_itinerary(destination, days, budget, preferences)
+    return assistant.generate_itinerary(destination, days, budget, preferences, use_demo)
