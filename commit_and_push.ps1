@@ -1,7 +1,7 @@
 # Helper script to commit local changes and push to your GitHub remote.
 # Run this from the repository root in PowerShell.
 
-$remoteUrl = 'https://github.com/Pranavkrishna136/travel-guide-assist.git'
+$remoteUrl = 'https://github.com/Pranavkrishna136/travel-guide-assistant.git'
 
 Write-Host "Staging all changes..."
 git add .
