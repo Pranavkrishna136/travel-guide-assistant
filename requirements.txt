@@ -1,0 +1,10 @@
+mkdocs
+mkdocs-material
+pymdown-extensions
+markdown
+streamlit
+openai
+sentence-transformers
+faiss-cpu
+python-dotenv
+requests

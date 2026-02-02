@@ -1,0 +1,21 @@
+site_name: Travel Guide Assistant Docs
+site_description: Documentation for the Travel Guide Assistant (RAG-powered travel planner)
+site_author: Pranav Krishna
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Usage: usage.md
+  - Architecture: architecture.md
+  - RAG Pipeline: rag_pipeline.md
+  - Data Sources: data_sources.md
+  - Creative Feature: creative_feature.md
+  - Deployment: deployment.md
+  - Contributing: contributing.md
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
