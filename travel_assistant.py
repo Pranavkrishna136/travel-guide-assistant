@@ -18,17 +18,13 @@ class TravelAssistant:
         for filepath in glob.glob(os.path.join(self.data_dir, '*.txt')):
             city_name = os.path.basename(filepath).replace('.txt', '').lower()
             
-            # Skip extended/culture/duplicates - keep main versions only
-            if city_name.endswith(('_extended', '_culture')):
-                continue
-            
             with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
                 self.documents[city_name] = content
         
         # Sort for consistent ordering
         self.documents = dict(sorted(self.documents.items()))
-        print(f"Loaded {len(self.documents)} unique city guides: {list(self.documents.keys())}")
+        print(f"Loaded {len(self.documents)} city guides: {list(self.documents.keys())}")
     
     def set_openai_client(self, api_key: str):
         """Set OpenAI client."""
