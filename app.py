@@ -63,123 +63,9 @@ if 'is_demo' not in st.session_state:
 if 'user_location' not in st.session_state:
     st.session_state.user_location = None
 
-# Sidebar for configuration
-with st.sidebar:
-    st.header("⚙️ Configuration")
-    
-    st.subheader("📍 Your Current Location")
-    
-    location_option = st.radio(
-        "Get Location By:",
-        ["Manual Entry", "Browser Auto-Detect"],
-        help="Choose how to set your current location"
-    )
-    
-    current_lat = None
-    current_lng = None
-    current_city = None
-    current_address = None
-    
-    if location_option == "Manual Entry":
-        col1, col2 = st.columns(2)
-        with col1:
-            current_lat = st.number_input("Latitude", value=40.7128, format="%.4f")
-        with col2:
-            current_lng = st.number_input("Longitude", value=-74.0060, format="%.4f")
-    else:
-        st.info("📌 To use auto-detect, enable location in your browser settings")
-        # Fallback to manual entry
-        col1, col2 = st.columns(2)
-        with col1:
-            current_lat = st.number_input("Latitude (Fallback)", value=40.7128, format="%.4f", key="lat_fallback")
-        with col2:
-            current_lng = st.number_input("Longitude (Fallback)", value=-74.0060, format="%.4f", key="lng_fallback")
-    
-    # Update location if values changed
-    if current_lat and current_lng:
-        geolocator = Nominatim(user_agent="travel_guide_app", timeout=5)
-        try:
-            location_data = geolocator.reverse(f"{current_lat}, {current_lng}", language='en')
-            address_parts = location_data.address.split(',')
-            current_city = address_parts[0] if len(address_parts) > 0 else "Unknown"
-            current_address = location_data.address
-            
-            st.session_state.user_location = {
-                'lat': current_lat,
-                'lng': current_lng,
-                'city': current_city,
-                'address': current_address
-            }
-            
-            st.success(f"✅ Location Set: **{current_city}**")
-            with st.expander("Full Address Details"):
-                st.write(current_address)
-        except (GeocoderTimedOut, Exception) as e:
-            st.session_state.user_location = {
-                'lat': current_lat,
-                'lng': current_lng,
-                'city': 'Location',
-                'address': f'{current_lat}, {current_lng}'
-            }
-            st.warning(f"Coordinates set: ({current_lat}, {current_lng})")
-    
-    st.markdown("---")
-    
-    # Demo mode toggle
-    use_demo_mode = st.checkbox(
-        "🎮 Use Demo Mode (No API Key)",
-        value=True,
-        help="Generate itineraries from travel data without OpenAI API"
-    )
-    
-    if not use_demo_mode:
-        # API Key input
-        api_key = st.text_input(
-            "🔑 OpenAI API Key",
-            type="password",
-            help="Enter your OpenAI API key for AI-powered itinerary generation"
-        )
-        
-        if api_key:
-            try:
-                st.session_state.assistant.set_openai_client(api_key)
-                st.session_state.api_key_set = True
-                st.success("✅ API Key Configured!")
-            except Exception as e:
-                st.error(f"❌ Error: {str(e)}")
-                st.session_state.api_key_set = False
-        else:
-            st.session_state.api_key_set = False
-    else:
-        st.session_state.api_key_set = True
-        st.info("🎮 Demo mode enabled - using travel database")
-    
-    st.markdown("---")
-    
-    # About section
-    st.header("ℹ️ About")
-    st.write("""
-    🌍 **Travel Guide Assistant** uses:
-    - **RAG**: Retrieval-Augmented Generation
-    - **Geolocation**: Real-time location tracking
-    - **AI**: OpenAI GPT-3.5 (optional)
-    - **Maps**: Interactive Google Maps integration
-    
-    Create personalized itineraries based on your current location, preferences, and budget!
-    """)
-    
-    st.markdown("---")
-    st.header("💳 Need Help?")
-    if not use_demo_mode:
-        st.warning("""
-        **API Issues?**
-        1. Check balance: https://platform.openai.com/account
-        2. Add payment method
-        3. Use **Demo Mode** - no API needed!
-        """)
-    
-    st.markdown("---")
-    st.write("📚 [View Docs](https://pranavkrishna136.github.io/travel-guide-assistant/)")
+# Demo mode always enabled - no configuration sidebar
+use_demo_mode = True
+st.session_state.api_key_set = True
 
 # Main content area
 col1, col2 = st.columns([1, 1], gap="medium")
@@ -221,12 +107,12 @@ with col1:
     )
     
     budget = st.number_input(
-        "💰 Budget (USD)",
+        "💰 Budget (₹ Rupees)",
         min_value=0,
-        max_value=100000,
-        value=700,
-        step=100,
-        help="Total budget"
+        max_value=10000000,
+        value=50000,
+        step=1000,
+        help="Total budget in Indian Rupees"
     )
     
     # Display available cities count
@@ -330,7 +216,7 @@ if st.session_state.itinerary:
     # Export as markdown
     markdown_content = f"""# Travel Itinerary for {destination}
 **Duration:** {days} days  
-**Budget:** ${budget}  
+**Budget:** ₹{budget:,}  
 **Travel Style:** {travel_style}  
 **Pace:** {pace}  
 **Mode:** {"Demo" if st.session_state.is_demo else "AI-Powered"}
