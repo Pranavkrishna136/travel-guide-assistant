@@ -37,9 +37,9 @@ st.markdown("""
 
 # Header
 st.markdown("""
-    # 🌍 Travel Guide Assistant
+    # 🌍 Global Travel Guide Assistant
     ### Smart & Personalized Travel Planning Powered by AI
-    **With Live Location Tracking & 65+ Global Destinations**
+    **Comprehensive Coverage: All 195+ Countries & Their States/Regions**
     ---
 """)
 
@@ -78,25 +78,48 @@ col1, col2 = st.columns([1, 1], gap="medium")
 with col1:
     st.header("🎯 Trip Details")
     
-    # Get available cities
-    available_cities = sorted(list(st.session_state.assistant.documents.keys()))
+    # Get all available countries
+    available_countries = st.session_state.assistant.get_available_countries()
     
-    destination = st.selectbox(
-        "📍 Select Destination",
-        options=available_cities,
+    # Country selection
+    selected_country = st.selectbox(
+        "🌐 Select Country",
+        options=available_countries,
         index=0,
-        help="Choose from available cities"
+        help="Choose from 195+ countries worldwide"
     )
     
-    # Also allow custom input
-    custom_dest = st.text_input(
-        "Or enter custom destination",
-        placeholder="e.g., Bangkok, Rome, Sydney",
-        help="Enter any destination - we'll find the closest match"
+    # Get states for selected country
+    available_states = st.session_state.assistant.get_available_states(selected_country)
+    
+    selected_state = st.selectbox(
+        "📍 Select State/Region/City",
+        options=available_states if available_states else [selected_country],
+        help="Choose a specific state, region, or city within the country"
     )
     
-    if custom_dest:
-        destination = custom_dest
+    # Search functionality
+    search_term = st.text_input(
+        "🔍 Or search destination",
+        placeholder="e.g., Paris, Tokyo, Bali...",
+        help="Search for any destination worldwide"
+    )
+    
+    destination = selected_country
+    state = selected_state
+    
+    if search_term:
+        search_results = st.session_state.assistant.search_destination(search_term)
+        if search_results:
+            result = search_results[0]
+            if result["type"] == "country":
+                destination = result["name"]
+                state = ""
+            else:
+                parts = result["name"].rsplit(", ", 1)
+                state = parts[0]
+                destination = parts[1]
+            st.info(f"✅ Found: {state or destination}" if state else f"✅ Found: {destination}")
     
     days = st.slider(
         "📅 Trip Duration (days)",
@@ -115,8 +138,15 @@ with col1:
         help="Total budget in Indian Rupees"
     )
     
-    # Display available cities count
-    st.metric("🌍 Available Destinations", len(available_cities))
+    # Display statistics
+    col1_1, col1_2, col1_3 = st.columns(3)
+    with col1_1:
+        st.metric("🌍 Countries", len(st.session_state.assistant.get_available_countries()))
+    with col1_2:
+        st.metric("📍 Selected", state or destination)
+    with col1_3:
+        available_states = st.session_state.assistant.get_available_states(destination)
+        st.metric("🗺️ Regions", len(available_states) if available_states else 1)
 
 with col2:
     st.header("✨ Preferences")
@@ -174,6 +204,7 @@ with col_btn1:
                 try:
                     itinerary, is_demo = st.session_state.assistant.generate_itinerary(
                         destination=destination,
+                        state=state,
                         days=days,
                         budget=budget,
                         preferences=preferences,

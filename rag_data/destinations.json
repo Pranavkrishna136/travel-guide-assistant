@@ -1,0 +1,202 @@
+{
+  "destinations": [
+    {
+      "id": "agra_taj_mahal",
+      "name": "Taj Mahal",
+      "city": "Agra",
+      "country": "India",
+      "lat": 27.1751,
+      "lon": 78.0421,
+      "description": "The Taj Mahal is an ivory-white marble mausoleum built by Mughal emperor Shah Jahan in memory of his favorite wife, Mumtaz Mahal. It is a masterpiece of Mughal architecture, blending Indian, Persian, and Islamic styles.",
+      "category": "monument,culture,historical",
+      "best_months": "October,November,December,January,February,March",
+      "budget": "budget",
+      "duration_hours": 2,
+      "entry_fee": "250 INR",
+      "guides": ["Best time to visit is early morning to avoid crowds", "The marble changes color throughout the day", "Photography is allowed outside the mausoleum", "Plan 2-3 hours for a complete visit"],
+      "reviews": [
+        {"author": "Sarah", "rating": 5, "text": "Absolutely breathtaking! Worth every penny. The marble architecture is magnificent."},
+        {"author": "Raj", "rating": 4, "text": "Beautiful but crowded. Hire a guide for better understanding."},
+        {"author": "Emma", "rating": 5, "text": "Best at sunset. The changing colors are stunning."}
+      ],
+      "food_near": ["Pind Balluchi", "Indian Accent", "Taj East Side"],
+      "transport": "Train from Delhi 2 hours or flight"
+    },
+    {
+      "id": "goa_beaches",
+      "name": "Goa Beaches",
+      "city": "Goa",
+      "country": "India",
+      "lat": 15.2993,
+      "lon": 73.8243,
+      "description": "Goa is famous for its pristine beaches, vibrant nightlife, water sports, and Portuguese colonial architecture. Popular beaches include Baga, Calangute, and Palolem.",
+      "category": "beach,nature,adventure",
+      "best_months": "November,December,January,February,March",
+      "budget": "budget",
+      "duration_hours": 24,
+      "entry_fee": "Free",
+      "guides": ["Baga Beach is best for nightlife and restaurants", "Palolem Beach offers a peaceful atmosphere", "Try water sports like parasailing and jet skiing", "Visit the markets and flea markets"],
+      "reviews": [
+        {"author": "Tom", "rating": 5, "text": "Perfect beach destination! Great food and friendly people."},
+        {"author": "Lisa", "rating": 5, "text": "Amazing beaches with clear water. Worth visiting multiple times."},
+        {"author": "Mike", "rating": 4, "text": "Can get crowded during peak season but still amazing."}
+      ],
+      "food_near": ["Fisherman's Wharf", "Martin's Corner", "Brittos"],
+      "transport": "Flight to Goa International Airport or train"
+    },
+    {
+      "id": "delhi_gateway",
+      "name": "Gateway of India",
+      "city": "Mumbai",
+      "country": "India",
+      "lat": 18.9220,
+      "lon": 72.8347,
+      "description": "The Gateway of India is a historic arch monument built in 1924. It is a symbol of Mumbai and one of the most visited monuments in India.",
+      "category": "monument,history,culture",
+      "best_months": "November,December,January",
+      "budget": "budget",
+      "duration_hours": 1,
+      "entry_fee": "Free",
+      "guides": ["Best viewed from the waterfront promenade", "Visit during sunset for stunning photography", "Nearby Colaba Causeway has great shopping", "Ferry rides to Elephanta Caves available"],
+      "reviews": [
+        {"author": "John", "rating": 4, "text": "Iconic landmark. Worth visiting but can be crowded."},
+        {"author": "Alice", "rating": 5, "text": "Amazing architecture and historical significance."},
+        {"author": "Bob", "rating": 4, "text": "Good spot for photos, especially at sunset."}
+      ],
+      "food_near": ["Cafe Coffee Day", "Mahesh Lunch Home", "Leopold Cafe"],
+      "transport": "Local train, bus, or taxi"
+    },
+    {
+      "id": "tokyo_sensoji",
+      "name": "Sensoji Temple",
+      "city": "Tokyo",
+      "country": "Japan",
+      "lat": 35.7149,
+      "lon": 139.7967,
+      "description": "Sensoji is an ancient Buddhist temple located in the Asakusa district. Built in 645 AD, it is one of Tokyo's most iconic temples with a massive red lantern.",
+      "category": "temple,culture,spiritual",
+      "best_months": "March,April,May,October,November",
+      "budget": "mid_range",
+      "duration_hours": 2,
+      "entry_fee": "Free",
+      "guides": ["Arrive early morning to avoid crowds", "The main hall is stunning with intricate decorations", "Nakamise shopping street has traditional crafts", "Nearby Meiji Shrine is also worth visiting"],
+      "reviews": [
+        {"author": "Yuki", "rating": 5, "text": "Beautiful and peaceful. Great spiritual experience."},
+        {"author": "David", "rating": 5, "text": "Most visited temple in Tokyo. Absolutely worth it."},
+        {"author": "Maria", "rating": 4, "text": "Can be very crowded but the architecture is impressive."}
+      ],
+      "food_near": ["Asakusa Traditional Restaurant", "Ramen Alley", "Sweet Treats"],
+      "transport": "Subway to Asakusa station"
+    },
+    {
+      "id": "kyoto_fushimi",
+      "name": "Fushimi Inari Taisha",
+      "city": "Kyoto",
+      "country": "Japan",
+      "lat": 34.8676,
+      "lon": 135.7706,
+      "description": "Famous for thousands of vermillion torii gates that create tunnel-like passages. This spiritual site is one of Japan's most photographed locations.",
+      "category": "temple,nature,cultural",
+      "best_months": "March,April,October,November",
+      "budget": "budget",
+      "duration_hours": 3,
+      "entry_fee": "Free",
+      "guides": ["Hike through the thousands of torii gates", "Go early morning for fewer crowds", "The views from the top are spectacular", "Photography opportunities at every corner"],
+      "reviews": [
+        {"author": "Kenji", "rating": 5, "text": "Incredible spiritual energy. One of the most beautiful places."},
+        {"author": "Sophie", "rating": 5, "text": "Mesmerizing gates. Worth the hike to the top."},
+        {"author": "Carlos", "rating": 5, "text": "Best sunset views in Kyoto. Must visit."}
+      ],
+      "food_near": ["Udon Restaurant", "Tea House", "Local Sweets"],
+      "transport": "Train to Fushimi Inari"
+    },
+    {
+      "id": "paris_eiffel",
+      "name": "Eiffel Tower",
+      "city": "Paris",
+      "country": "France",
+      "lat": 48.8584,
+      "lon": 2.2945,
+      "description": "The Eiffel Tower is an iconic iron lattice tower built in 1889. It is the most visited paid monument in the world and symbol of Paris.",
+      "category": "monument,landmark,culture",
+      "best_months": "April,May,September,October",
+      "budget": "mid_range",
+      "duration_hours": 3,
+      "entry_fee": "15 EUR",
+      "guides": ["Take the elevator to the top for panoramic views", "Visit at night when the tower is beautifully lit", "Book tickets in advance to avoid long queues", "Nearby Seine River cruises are available"],
+      "reviews": [
+        {"author": "Pierre", "rating": 5, "text": "Absolutely magnificent. Even better in person than photos."},
+        {"author": "Helen", "rating": 5, "text": "Must see when in Paris. Breathtaking views from the top."},
+        {"author": "Antonio", "rating": 4, "text": "Very crowded but iconic. Worth the visit."}
+      ],
+      "food_near": ["Cafe de l'Homme", "Le Jules Verne", "Creperies"],
+      "transport": "Metro to Bir-Hakeim station"
+    },
+    {
+      "id": "bangkok_palace",
+      "name": "Grand Palace",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "lat": 13.6506,
+      "lon": 100.4955,
+      "description": "The Grand Palace is the official residence of Thai kings since 1782. It is the most sacred Buddhist site in Thailand with stunning architecture and intricate details.",
+      "category": "palace,temple,cultural",
+      "best_months": "November,December,January,February",
+      "budget": "budget",
+      "duration_hours": 2,
+      "entry_fee": "500 THB",
+      "guides": ["Dress respectfully (covered shoulders and knees)", "Hire an English-speaking guide for better understanding", "Emerald Buddha is the most sacred object", "Photography allowed in most areas"],
+      "reviews": [
+        {"author": "Somchai", "rating": 5, "text": "Breathtaking architecture and intricate designs. Very spiritual."},
+        {"author": "Jennifer", "rating": 5, "text": "Most impressive palace I've ever seen. Worth every moment."},
+        {"author": "Marco", "rating": 4, "text": "Stunning but requires respectful dress code. Worth it."}
+      ],
+      "food_near": ["Khao Tom", "Street Food Vendors", "Traditional Thai"],
+      "transport": "BTS Skytrain or taxi"
+    },
+    {
+      "id": "rio_christ",
+      "name": "Christ the Redeemer",
+      "city": "Rio de Janeiro",
+      "country": "Brazil",
+      "lat": -22.9519,
+      "lon": -43.2105,
+      "description": "Christ the Redeemer is a massive statue of Jesus Christ overlooking Rio de Janeiro from the Corcovado Mountain. It is one of the New Seven Wonders of the World.",
+      "category": "monument,landmark,spiritual",
+      "best_months": "April,May,September,October",
+      "budget": "mid_range",
+      "duration_hours": 2,
+      "entry_fee": "28 BRL",
+      "guides": ["Go early morning for clear views", "The statue offers panoramic views of Rio", "Nearby Botanical Gardens are worth visiting", "Sunset views are spectacular"],
+      "reviews": [
+        {"author": "Jose", "rating": 5, "text": "Iconic landmark with stunning city views."},
+        {"author": "Linda", "rating": 5, "text": "Breathtaking statue and amazing vistas of Rio."},
+        {"author": "Roberto", "rating": 4, "text": "Can be misty sometimes but still worth visiting."}
+      ],
+      "food_near": ["Confeitaria Colombo", "Restaurante Plataforma", "Juice Bars"],
+      "transport": "Train or van to Corcovado Mountain"
+    },
+    {
+      "id": "delhi_hawa_mahal",
+      "name": "Hawa Mahal",
+      "city": "Jaipur",
+      "country": "India",
+      "lat": 26.9245,
+      "lon": 75.8255,
+      "description": "Hawa Mahal is a historic structure built in 1799 with 953 small windows. It is a unique example of Rajasthani and Mughal architecture.",
+      "category": "monument,architecture,historical",
+      "best_months": "October,November,December,January",
+      "budget": "budget",
+      "duration_hours": 1,
+      "entry_fee": "50 INR",
+      "guides": ["Best photographed from the street below", "Climb inside to see the narrow corridors", "Visit City Palace nearby", "Jantar Mantar is within walking distance"],
+      "reviews": [
+        {"author": "Priya", "rating": 5, "text": "Unique and iconic structure. Amazing architecture."},
+        {"author": "Richard", "rating": 4, "text": "Interesting design. Worth a quick visit."},
+        {"author": "Deepak", "rating": 5, "text": "Beautiful pink city landmark. Must see."}
+      ],
+      "food_near": ["Rajasthani Cuisine", "Mithai Wala", "Cafe Coffee"],
+      "transport": "Taxi, auto-rickshaw, or bus"
+    }
+  ]
+}
